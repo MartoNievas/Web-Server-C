@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Martin's Suckless Server</title>
+    <style>
+        :root {
+            --bg: #1e1e2e;
+            --fg: #cdd6f4;
+            --accent: #89b4fa;
+            --border: #45475a;
+        }
+        body {
+            font-family: 'monospace', sans-serif;
+            background-color: var(--bg);
+            color: var(--fg);
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        header {
+            border-bottom: 2px solid var(--accent);
+            margin-bottom: 30px;
+        }
+        h1 { color: var(--accent); }
+        .card {
+            background: #313244;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+        code {
+            background: #11111b;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #f38ba8;
+        }
+        footer {
+            margin-top: 50px;
+            font-size: 0.8em;
+            color: #7f849c;
+            text-align: center;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Suckless C Server</h1>
+        <p>Corriendo en Arch Linux Desktop</p>
+    </header>
+
+    <main>
+        <section class="card">
+            <h2>Sobre este sitio</h2>
+            <p>Esta página está siendo servida por un binario escrito en <code>C</code> usando sockets de Berkeley. Sin Nginx, sin Apache, solo código puro.</p>
+        </section>
+
+        <section class="card">
+            <h2>System Info</h2>
+            <ul>
+                <li><strong>OS:</strong> Arch Linux</li>
+                <li><strong>Kernel:</strong> 6.x.x-arch1-1</li>
+                <li><strong>WM:</strong> dwm</li>
+                <li><strong>Shell:</strong> zsh</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>Hecho por Martin | <a href="https://github.com/MartoNievas">GitHub</a></p>
+    </footer>
+</body>
+</html>
