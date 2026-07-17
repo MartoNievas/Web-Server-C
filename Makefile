@@ -1,9 +1,12 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -g 
+CFLAGS = -Wall -Wextra -g -pthread
 TARGET = server
 
-all: 
+all:
 	$(CC) $(CFLAGS) server.c -o $(TARGET)
 
-clean: 
+test: all
+	./test.sh
+
+clean:
 	rm -f $(TARGET)
