@@ -1,76 +1,76 @@
 # Simple C Web Server
 
-Servidor web minimalista escrito en C con la API de sockets de Berkeley. Implementa HTTP/1.1 y sirve archivos estáticos sobre TCP en sistemas tipo Unix, atendiendo varias conexiones a la vez mediante un hilo por cliente.
+A minimal web server written in C using the Berkeley sockets API. It implements HTTP/1.1 and serves static files over TCP on Unix-like systems, handling multiple connections at once through one thread per client.
 
-## Características
+## Features
 
-- Sockets de red nativos (AF_INET) sobre TCP.
-- Encabezados HTTP/1.1 (Content-Type y Content-Length).
-- Un hilo por conexión, para que un cliente lento no bloquee al resto.
-- Detección de MIME type según la extensión del archivo (HTML, CSS, JS, JSON, imágenes, texto plano; el resto cae en application/octet-stream).
-- Resolución de rutas con realpath(), rechazando cualquier request que resuelva fuera del directorio raíz del servidor.
-- Puerto configurable, por argumento en la línea de comandos o con la variable de entorno PORT (por defecto 8080).
-- Registro de cada request con timestamp, IP del cliente, método, ruta y código de estado.
-- Cierre prolijo ante SIGINT: cierra el socket de escucha antes de salir.
-- SO_REUSEADDR habilitado, para que reiniciar el servidor no choque con "address already in use".
+- Native network sockets (AF_INET) over TCP.
+- HTTP/1.1 headers (Content-Type and Content-Length).
+- One thread per connection, so a slow client doesn't hold up the rest.
+- MIME type detection based on the file extension (HTML, CSS, JS, JSON, images, plain text; anything else falls back to application/octet-stream).
+- Path resolution through realpath(), rejecting any request that would resolve outside the server's root directory.
+- Configurable port, either as a command-line argument or through the PORT environment variable (defaults to 8080).
+- Request logging with timestamp, client IP, method, path, and status code.
+- Clean shutdown on SIGINT: it closes the listening socket before exiting.
+- SO_REUSEADDR enabled, so restarting the server doesn't get stuck on "address already in use".
 
-## Estructura del proyecto
+## Project structure
 
-- server.c: lógica del servidor, manejo de sockets, parseo de requests y el ciclo de aceptación de conexiones.
-- index.html: archivo que se sirve por defecto para /.
-- Makefile: script de compilación.
-- test.sh: pruebas de humo que ejercitan el servidor corriendo con curl.
+- server.c: server logic, socket handling, request parsing, and the connection-accept loop.
+- index.html: the file served by default for /.
+- Makefile: build script.
+- test.sh: smoke tests that exercise the running server with curl.
 
-## Requisitos
+## Requirements
 
-- Compilador GCC o Clang.
-- Sistema POSIX (Linux, BSD) con soporte de pthreads.
+- GCC or Clang.
+- A POSIX system (Linux, BSD) with pthreads.
 - GNU Make.
 
-## Compilación
+## Building
 
-Para compilar el binario:
+To compile the binary:
 
 make
 
-Para eliminar el binario y archivos temporales:
+To remove the binary and temporary files:
 
 make clean
 
-## Ejecución
+## Running
 
-Inicie el servidor con:
+Start the server with:
 
 ./server
 
-Por defecto escucha en el puerto 8080. Para usar otro puerto:
+By default it listens on port 8080. To use a different port:
 
 ./server 9090
 
-o
+or
 
 PORT=9090 ./server
 
-Puede verificarlo desde el navegador en http://localhost:8080, o con curl:
+Check it with a browser at http://localhost:8080, or with curl:
 
 curl -i localhost:8080
 
-## Ejecutar los tests
+## Running the tests
 
 make test
 
-Esto compila el servidor, lo levanta en un puerto de prueba aparte, y verifica que archivos estáticos, archivos inexistentes, MIME types y los intentos de path traversal se comporten como se espera.
+This builds the server, starts it on a separate test port, and checks that static files, missing files, MIME types, and path traversal attempts all behave as expected.
 
-## Flujo de operación
+## How it works
 
-El servidor sigue el ciclo de vida estándar de un socket pasivo:
+The server follows the standard passive-socket lifecycle:
 
-1. Creación del socket con socket().
-2. Asignación de dirección y puerto con bind().
-3. Paso a estado de escucha con listen().
-4. Aceptación de una conexión con accept().
-5. Delegación de la conexión a un hilo nuevo, que parsea el request, resuelve la ruta, envía la respuesta y cierra el socket.
+1. Create the socket with socket().
+2. Bind it to an address and port with bind().
+3. Start listening with listen().
+4. Accept a connection with accept().
+5. Hand the connection off to a new thread, which parses the request, resolves the path, sends the response, and closes the socket.
 
-## Licencia
+## License
 
-Este proyecto se distribuye bajo la licencia MIT.
+MIT.
